@@ -38,7 +38,7 @@ public class GrabberShow implements Runnable {
 		}
 	}
 	
-	public static void main(){
+	public static void main(String[] args){
 		Thread th = new Thread(new GrabberShow() );
 		th.start();
 	}
