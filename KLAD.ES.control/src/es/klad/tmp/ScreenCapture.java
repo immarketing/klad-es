@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
@@ -34,6 +35,9 @@ public class ScreenCapture {
 	 * @param args
 	 */
 	public static void main(String args[]) throws AWTException, IOException {
+		Properties props = System.getProperties();
+		
+		//props.l
 		while (true) {
 			// capture the whole screen
 			BufferedImage screencapture = new Robot()
