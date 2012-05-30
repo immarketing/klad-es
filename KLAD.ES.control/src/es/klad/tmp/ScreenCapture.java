@@ -6,6 +6,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,17 +14,19 @@ import java.util.Date;
 import java.util.Properties;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageInputStream;
 
 public class ScreenCapture {
 
 	private static final int SLEEPPERIOD = 30 * 1000;
+	private static String fileNameFormat = "yyyy.MM.dd_HH.mm.ss";
 
 	private static String getFormattedFileName(String ext) {
 		String result = "";
 
 		Date dt = new Date();
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss");
+		SimpleDateFormat sdf = new SimpleDateFormat(fileNameFormat);
 
 		result = sdf.format(dt);
 
@@ -37,7 +40,11 @@ public class ScreenCapture {
 	public static void main(String args[]) throws AWTException, IOException {
 		Properties props = System.getProperties();
 		
-		//props.l
+		props.load(new FileInputStream(".props"));
+		
+		String imagePath = props.getProperty("ScreenCapture.image_path", ".\\");
+		fileNameFormat = props.getProperty("ScreenCapture.file_name_format", fileNameFormat);
+		
 		while (true) {
 			// capture the whole screen
 			BufferedImage screencapture = new Robot()
@@ -45,7 +52,10 @@ public class ScreenCapture {
 							.getDefaultToolkit().getScreenSize()));
 
 			// Save as JPEG
-			File file = new File("m:\\1\\" + getFormattedFileName("jpg"));
+			
+			//File file = new File("m:\\1\\" + getFormattedFileName("jpg"));
+			File file = new File(imagePath + getFormattedFileName("jpg"));
+			
 			ImageIO.write(screencapture, "jpg", file);
 			
 			try {
